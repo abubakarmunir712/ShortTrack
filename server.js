@@ -3,8 +3,6 @@ const cookieParser = require('cookie-parser')
 const app =express()
 const path = require('path')
 const mongoose = require('mongoose')
-const User = require('./models/user')
-const user = require('./models/user')
 
 require('dotenv').config()
 
