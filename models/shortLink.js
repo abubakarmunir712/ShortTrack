@@ -10,8 +10,9 @@ const LinkSchema = new Schema({
     },
     shortenedUrl: {
         type: String,
-        required: true,
-        unique: true
+        required: [true,'Link is required'],
+        unique: true,
+        minlength: [6,'The link must be at least six characters long!']
     },
     maxClicks: {
         type: Number

@@ -4,6 +4,7 @@ const app =express()
 const path = require('path')
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/userRoute')
+const linkRoutes = require('./routes/shortLinkRoute')
 require('dotenv').config()
 
 //MiddleWare
@@ -26,5 +27,6 @@ mongoose.connect(process.env.DB_CONNECTION_STRING)
 
 //Setting routes
 app.use(authRoutes)
+app.use(linkRoutes)
 
- 
+    
