@@ -33,7 +33,7 @@ const clickSchema = new Schema({
     },
     Reason:{
         type:String,
-        enum:["Browser","Device","Proxy","Location","OS","None","Referrer"],
+        enum:["Browser","Device","Proxy","Location","OS","None"],
         default:"None",
     },
     Email:{

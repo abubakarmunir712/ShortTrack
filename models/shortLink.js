@@ -40,11 +40,6 @@ const LinkSchema = new Schema({
         enum: ["Block", "Allow", "None"],
         default: "None"
     },
-    ReferrerFilter: {
-        type: String,
-        enum: ["Block", "Allow", "None"],
-        default: "None"
-    },
     blockedGeoLocations: {
         type: [String],
         default: []
@@ -65,14 +60,6 @@ const LinkSchema = new Schema({
         type: [String],
         default: []
     },
-    blockedReferrer: {
-        type: [String],
-        default: []
-    },
-    allowedReferrer: {
-        type: [String],
-        default: []
-    },
     allowedDevices: {
         type: [String],
         default: []
@@ -85,12 +72,33 @@ const LinkSchema = new Schema({
         type: [String],
         default: []
     },
+    proxyCheck: {
+        type: Boolean,
+        default: false
+    },
+    checkType: {
+        type: String,
+        enum: ["None", "Strict", "Easy"],
+        default: "None"
+    },
     conditions: {
         type: [{
-            country: String,
-            browser: String,
-            device: String,
-            OS: String,
+            country: {
+                type:String,
+                default:"None"
+            },
+            browser: {
+                type: String,
+                default:"None"
+            },
+            device: {
+                type: String,
+                default:"None"
+            },
+            OS: {
+                type: String,
+                default:"None"
+            },
             redirectUrl:
             {
                 type: String,
@@ -105,15 +113,7 @@ const LinkSchema = new Schema({
                 type: Boolean,
                 default: false
             },
-            proxyCheck: {
-                type: Boolean,
-                default: false
-            },
-            checkType: {
-                type: String,
-                enum: ["None", "Strict", "Easy"],
-                default: "None"
-            }
+            
         }],
     }
 });

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 module.exports.addLink = async(req, res) => {
     try{
+        req.body.urlOwner = req.user.id
         const link = await shortLink.create(req.body)
         console.log(link)
         res.status(200).send({ message: 'Link Created successfully' });
