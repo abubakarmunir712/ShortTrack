@@ -12,6 +12,7 @@ module.exports.verifyOTP = async (req, res) => {
         if (OTP.OTP == req.body.OTP) {
 
             const User = await user.findOneAndUpdate({ email: req.user.email }, { verified: true },{new:true})
+            const otp = await OTP.deleteOne({ email: req.user.email })
             generateToken(res,User,process.env.COOKIE_DURATION)
             return res.status(200).send({message:'Correct OTP'})
         }

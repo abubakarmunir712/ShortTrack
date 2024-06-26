@@ -1,8 +1,6 @@
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
 const User = require('../models/user')
-const { toInt } = require('validator')
 const sendOTP = require('../controllers/sendOTP')
 const generateToken = require('./generateJWTToken')
 const { verifyOTP } = require('./verifyOTP')
