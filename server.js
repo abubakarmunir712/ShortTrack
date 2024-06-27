@@ -35,6 +35,7 @@ app.use(clickRoutes)
 
 
 app.get('/',(req,res)=>{
+    res.send('api running')
 })
 
     
