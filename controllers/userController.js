@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 require('dotenv').config()
 const User = require('../models/user')
-const sendOTP = require('../controllers/sendOTP')
+const sendOTP = require('./sendOTP')
 const generateToken = require('./generateJWTToken')
 const { verifyOTP } = require('./verifyOTP')
 // For Login

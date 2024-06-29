@@ -1,33 +1,49 @@
-const nodemailer = require('nodemailer');
+const SMTPConnection = require('smtp-connection');
 require('dotenv').config()
-const OTPModel = require('../models/OTP') 
-// Create a transporter
-async function sendOTP(res,email) {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail', // e.g., 'gmail'
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD
-        }
-    });
-    const OTP = Math.floor(100000 + Math.random() * 900000);
-    // Set up email data
-    const mailOptions = {
-        from: process.env.EMAIL, // sender address
-        to: email,
-        subject: 'OTP', // Subject line
-        html: `<p color="red">Your OTP is ${OTP}</p>` // html body
-    };
-    const delOtp = await OTPModel.deleteMany({email})
-    const otp = await OTPModel.create({email,OTP});
-    console.log(otp)
+const OTPModel = require('../models/OTP')
+const myemail = process.env.EMAIL;
+const password = process.env.EMAIL_PASSWORD;
+const sendOTP = async (res, email) => {
+  const connection = new SMTPConnection({
+    port: 465,
+    host: 'smtp.gmail.com',
+    secure: true, // use SSL
+  });
+    
+    connection.connect(() => {
+      connection.login({
+        user: myemail,
+            pass: password,
+          }, async (err) => {
+            if (err) {
+              console.error(err);
+              
+            }
+            else{
+              console.log("connected")
+            }
+            
+            const OTP = Math.floor(100000 + Math.random() * 900000);
+            const message = `From: ${myemail}\r\nTo: ${email}\r\nSubject: OTP\r\n\r\nYour OTP is ${OTP}`;
+            
+            const delOtp = await OTPModel.deleteMany({ email });
+            const otp = await OTPModel.create({ email, OTP });
+            console.log(otp);
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.send({message:"Internal Server error"})
-        }
-    });
-    return res.send({message:"OTP has been sent"});
-}
 
+            connection.send({
+                from: myemail,
+                to: [email],
+            }, message, async (err, info) => {
+                if (err) {
+                    res.status(500).send({message:'Internal Server Error'})
+                }
+                else{
+                    res.status(200).send({message:'OTP has been sent'})
+                }
+                connection.quit();
+            });
+        });
+    });
+};
 module.exports = sendOTP;
